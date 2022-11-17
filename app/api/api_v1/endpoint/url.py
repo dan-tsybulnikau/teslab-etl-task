@@ -27,7 +27,7 @@ def refresh(db: Session = Depends(get_db), date: Optional[str] = None)-> JSONRes
     
     for item in data:
         currency_record = Currency.parse_obj(item)
-        currency_rate_record = CurrencyValue.parse_obj(**item)
+        currency_rate_record = CurrencyValue.parse_obj(item)
         try:
             crud.create_currency(db=db, currency=currency_record)
         except exc.IntegrityError:

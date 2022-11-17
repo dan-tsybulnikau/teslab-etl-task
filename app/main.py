@@ -13,7 +13,7 @@ from app.config import Environment
 from app.core.database import engine
 
 
-if Environment.DEV_ENV == "dev":
+if Environment.ENV_TYPE == "dev":
     models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
