@@ -19,7 +19,7 @@ router = APIRouter()
 data_connector = DataHandler(Environment.CBR_URL)
 
 @router.get("/refresh", dependencies=[Depends(has_access)])
-def refresh(db: Session = Depends(get_db), date: Optional[str] = None):
+def refresh(db: Session = Depends(get_db), date: Optional[str] = None)-> JSONResponse: 
     data = data_connector.get_data_on_date(date)
     
     if not data:
@@ -38,7 +38,7 @@ def refresh(db: Session = Depends(get_db), date: Optional[str] = None):
     return JSONResponse(data)
 
 @router.get('/currency_rate', dependencies=[Depends(has_access)])
-def get_currency_records(db: Session = Depends(get_db), date: str = Query(regex=Environment.DATE_VALIDATOR)):
+def get_currency_records(db: Session = Depends(get_db), date: str = Query(regex=Environment.DATE_VALIDATOR)) -> JSONResponse:
     query_date = datetime.datetime.strptime(date, Environment.DATE_FORMAT)
     rate_records = crud.get_currency_rate_on_date(db=db, date=query_date)
     return JSONResponse(content=jsonable_encoder(rate_records))
