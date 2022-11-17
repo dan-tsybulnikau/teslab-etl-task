@@ -10,7 +10,6 @@
     - [Build process](#build-process)
     - [App usage](#app-usage)
     - [REST API](#rest-api)
-    - [LInk to demo](#link-to-demo)
   
 
 <!-- About the Project -->
@@ -266,6 +265,3 @@ components:
 ### REST API
 To see docs and try requesting something go to
 https://app.swaggerhub.com/apis/dan-tsybulnikau/yandex-api/1.0.1 
-
-### LInk to demo
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
