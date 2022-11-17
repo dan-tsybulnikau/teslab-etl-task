@@ -1,5 +1,4 @@
 from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
 from app.core.database import Base
@@ -10,7 +9,7 @@ class Currency(Base):
     currency_id = Column(String, primary_key=True, index=True)
     name = Column(String)
     num_code = Column(Integer)
-    char_code = Column(String)
+    char_code = Column(String(15))
 
 
 class CurrencyRate(Base):

@@ -32,9 +32,18 @@ Test task on backend integration
 <!-- TechStack -->
 ## Solution description
 Programming language - Python
-1. In order to store data in database, access it 
-1. Server based on FastAPI framework was created
-2. 
+Project provides endpoints to collect currency data from CBR API to the Postgres database (either manually for today/desired date or periodically every day at 00:00)
+and perform selections from given database for currency rates on desired date
+About the Solution
+
+To solve this task:
+1. Created FastAPI service
+2. Created two endpoints - /refresh and /currency_rate
+3. Builded Docker image
+4. Created development environment in Yandex Cloud
+5. Created refresh scheduled function to perform everyday updates
+6. Created API Gateway to perform orchestration between service endpoints
+
 ### Tech Stack
 
 <details>

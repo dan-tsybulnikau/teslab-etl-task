@@ -1,3 +1,4 @@
+from http import HTTPStatus
 from jose import jwt
 from jose.exceptions import JOSEError
 from fastapi import HTTPException, Depends
@@ -13,15 +14,6 @@ def has_access(credentials: HTTPAuthorizationCredentials= Depends(security)):
         payload = jwt.decode(token, key=Environment.SECRET_KEY)
     except JOSEError as e:
         raise HTTPException(
-            status_code=401,
+            status_code=HTTPStatus.UNAUTHORIZED,
             detail=str(e))
         
-
-import os
-import requests
-def handler(event, context):
-    r = requests.get(os.environ.get('SERVICE_URL'), headers={'Authorization': 'Bearer: ' + os.environ.get('TOKEN')})
-    return {
-    'statusCode': 200,
-    'body': 'refreshed'
-    }
