@@ -2,7 +2,8 @@ import datetime
 
 from pydantic import BaseModel, ValidationError, validator
 
-DATE_FORMAT = '%d.%m.%Y'
+from app.config import Environment
+
 
 class Currency(BaseModel):
     currency_id:str
@@ -37,7 +38,7 @@ class CurrencyValue(BaseModel):
 
     def __init__(self, **kwargs):
         kwargs["currency_id"] = kwargs["@ID"]
-        kwargs["date_captured"] = datetime.datetime.strptime(kwargs["@Date"], DATE_FORMAT)
+        kwargs["date_captured"] = datetime.datetime.strptime(kwargs["@Date"], Environment.DATE_FORMAT)
         kwargs["nominal"] = kwargs["Nominal"]
         kwargs["value"] = kwargs["Value"].replace(',', '.')
         super().__init__(**kwargs)

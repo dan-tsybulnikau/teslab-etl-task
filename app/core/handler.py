@@ -3,7 +3,7 @@ from typing import Union, List
 import requests
 import xmltodict
 
-from app import Environment
+from app.config import Environment
 
 
 class DataHandler:

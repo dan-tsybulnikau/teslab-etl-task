@@ -3,7 +3,7 @@ from jose import jwt
 from jose.exceptions import JOSEError
 from fastapi import HTTPException, Depends
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from app import Environment
+from app.config import Environment
 
 
 security = HTTPBearer()
