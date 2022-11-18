@@ -19,7 +19,7 @@ router = APIRouter()
 data_connector = DataHandler(Environment.CBR_URL)
 
 @router.get("/refresh", dependencies=[Depends(has_access)])
-def refresh(db: Session = Depends(get_db), date: Optional[str] = None)-> JSONResponse: 
+def refresh(db: Session = Depends(get_db), date: Optional[str] = Query(default=None, regex=Environment.DATE_VALIDATOR))-> JSONResponse: 
     data = data_connector.get_data_on_date(date)
     
     if not data:

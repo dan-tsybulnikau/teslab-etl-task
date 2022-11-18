@@ -10,6 +10,7 @@
     - [Build process](#build-process)
     - [App usage](#app-usage)
     - [REST API](#rest-api)
+    - [Test case](#test-case)
   
 
 <!-- About the Project -->
@@ -89,13 +90,13 @@ Cloud deploy
 5. Go to "All services" -> "Managed Service for PostgreSQL" -> "Create cluster"
 6. After cluster is alive, click on it, go to "Databases" -> "Add", enter database name and press "Add"
 7. After created, press three dot sign -> "Connect" -> "Python"  and copy host, port, dbname, and format them into connection URL to POstgres DB (as in [Environment requirements](#environment-requirements) (option 2))
-8. Get Yandex OAth token (https://cloud.yandex.com/en/docs/iam/concepts/authorization/oauth-token)
+8. Login to Docker  (https://cloud.yandex.com/en/docs/container-registry/operations/authentication)
 9. Go to "All services" -> "Container registry" -> "Create registry" and add name
 10. After registry is created, copy its ID
 11. Open local terminal and go to project directory
 12. Login into Yandex registry
 ```bash
-docker login --username oath --password <YOUR_YANDEX_OATH_TOKEN> cr.yandex
+docker login --username oauth --password <YOUR_YANDEX_OATH_TOKEN> cr.yandex
 ```
 13. Build FastAPI service
 ```bash
@@ -103,11 +104,11 @@ docker build -t yandex_api -f ./docker/Dockerfile .
 ```
 14. Optionally, add tag 
 ```bash
-docker tag yandex_api cr.yandex/crpq91koe8u28rmk9plf/yandex_api:latest
+docker tag yandex_api cr.yandex/<YOUR_REGISTRY_ID>/yandex_api:latest
 ```
 15. Push image inside registry
 ```bash
-docker push cr.yandex/<YOUR_REGISTRY_API>/yandex_api
+docker push cr.yandex/<YOUR_REGISTRY_ID>/yandex_api
 ```
 16. Go to "All services" -> "Serverless Containers" -> "Create container" and add name
 17. After creating select recently pushed image in "Image URL"
@@ -115,14 +116,9 @@ docker push cr.yandex/<YOUR_REGISTRY_API>/yandex_api
 19. Select "Service account" that was created earlier and press "Create revision"
 20. Copy container "Link to invoke" and "ID"
 21. Go to "All services" -> "API gateway" -> "Create API gateway"
-22. Add name and paste next lines to "Specification" with data copied before
+22. Add name and paste next lines to "Specification" with data copied before under "path" option
 ```bash
-openapi: 3.0.2
-info:
-  title: FastAPI
-  version: 0.1.0
-servers:
-- url: <CONTAINER_LINK_TO_INVOKE>
+
 paths:
   /docs:
     get:
@@ -253,7 +249,7 @@ components:
 24. Add function name and press "Create"
 25. Inside editor select "Python", press "Continue"
 26. Press "Create file" (if "index.py") does not exist and paste code from local yandex_function.py, add "Environment variables":
-        - SERVICE_URL - <CONTAINER_LINK_TO_INVOKE>
+        - SERVICE_URL - <API_GATEWAY_LINK_TO_INVOKE>
         - TOKEN - <TOKEN_FROM_ENV_FILE>
 27. Press "Create revision" and go to "Triggers" -> "Create trigger"
 28. Enter trigger name, paste "0 0 ? * * *" to Cron expression, select created function in "Function" field, select created service account name in "Service account" and press "Create trigger"
@@ -265,3 +261,8 @@ components:
 ### REST API
 To see docs and try requesting something go to
 https://app.swaggerhub.com/apis/dan-tsybulnikau/yandex-api/1.0.1 
+
+
+### Test case
+Link - https://d5dq55s9sem32osrt5l9.apigw.yandexcloud.net/refresh
+Test token - eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiYWRtaW4iLCJwYXNzd29yZCI6Imhhc2hlZF9wYXNzd29yZCJ9.AIuCQISVEYooLDbYhqMH9Z4JvWvvHfz-N7JyWRgYFzI

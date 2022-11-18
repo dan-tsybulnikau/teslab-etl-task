@@ -18,7 +18,7 @@ class DataHandler:
         return local
 
     def get_data_on_date(self, date: Union[str, None] = None) -> Union[List, None]:
-        params = {'dare_req':date} if date else None
+        params = {'date_req':date} if date else None
         data = requests.get('https://www.cbr.ru/scripts/XML_daily.asp', params=params)
         if data.status_code == HTTPStatus.OK:
             return self.extract_data_from_xml(data.text)
